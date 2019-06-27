@@ -59,6 +59,7 @@
             self.movies = dataDictionary[@"results"];
             for (NSDictionary *movie in self.movies){
                 NSLog(@"%@", movie[@"title"]);
+                NSLog(@"%@", movie[@"id"]);
             }
             [self.tableView reloadData];
             // TODO: Store the movies in a property to use elsewhere

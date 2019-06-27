@@ -69,7 +69,7 @@
             </objects>
             <point key="canvasLocation" x="754.375" y="839.06666666666661"/>
         </scene>
-        <!--Details View Controller-->
+        <!--Overview-->
         <scene sceneID="EFS-nI-1gj">
             <objects>
                 <viewController id="Biq-hC-dxj" customClass="DetailsViewController" sceneMemberID="viewController">
@@ -79,7 +79,7 @@
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.80000000000000004" contentMode="scaleAspectFill" alwaysBounceVertical="YES" id="Zp7-lV-cjs">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Vbr-vo-m9H">
                                         <rect key="frame" x="0.0" y="-88" width="375" height="525"/>
@@ -88,26 +88,35 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wZ1-3j-Qjy">
                                         <rect key="frame" x="28" y="445" width="318" height="53"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="36"/>
+                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="29"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Pwo-de-5v6">
-                                        <rect key="frame" x="28" y="537" width="318" height="153"/>
+                                        <rect key="frame" x="28" y="521" width="318" height="153"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Release:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7WR-LD-BHw">
-                                        <rect key="frame" x="28" y="496" width="65" height="21"/>
+                                        <rect key="frame" x="28" y="486" width="65" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" id="B5H-oc-uEJ">
+                                        <rect key="frame" x="269" y="336" width="77" height="76"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="FANDANGO" image="fandangoicon"/>
+                                        <connections>
+                                            <action selector="buttonTap:" destination="Biq-hC-dxj" eventType="touchUpInside" id="kYf-jd-rTq"/>
+                                        </connections>
+                                    </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Release Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="k7U-PA-FfY">
-                                        <rect key="frame" x="101" y="496" width="135" height="21"/>
+                                        <rect key="frame" x="101" y="486" width="135" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -119,7 +128,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
-                    <navigationItem key="navigationItem" id="6dT-TF-HqD"/>
+                    <navigationItem key="navigationItem" title="Overview" id="6dT-TF-HqD"/>
                     <connections>
                         <outlet property="backView" destination="Vbr-vo-m9H" id="O6Z-No-WqE"/>
                         <outlet property="descLabel" destination="Pwo-de-5v6" id="PDW-Nj-2gX"/>
@@ -129,7 +138,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WS0-yU-bbO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1406.25" y="353.21999999999997"/>
+            <point key="canvasLocation" x="1405.5999999999999" y="353.20197044334975"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="1en-iS-gQU">
@@ -153,8 +162,8 @@
         <!--Poster View-->
         <scene sceneID="Jqu-iw-UXt">
             <objects>
-                <navigationController id="fWf-by-hUe" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Poster View" id="caA-tR-17M"/>
+                <navigationController title="Poster View" id="fWf-by-hUe" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Poster View" image="superhero_tabbar_item" id="caA-tR-17M"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="6JW-U7-Koc">
                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -167,7 +176,7 @@
             </objects>
             <point key="canvasLocation" x="125.625" y="-627.9466666666666"/>
         </scene>
-        <!--Movies Grid View Controller-->
+        <!--Poster View-->
         <scene sceneID="69w-je-z9P">
             <objects>
                 <viewController id="WCD-pT-gCc" customClass="MoviesGridViewController" sceneMemberID="viewController">
@@ -209,7 +218,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
-                    <navigationItem key="navigationItem" id="AyQ-eQ-ITJ"/>
+                    <navigationItem key="navigationItem" title="Poster View" id="AyQ-eQ-ITJ"/>
                     <connections>
                         <outlet property="collectionView" destination="Ivj-fL-MzA" id="vUP-b0-Rae"/>
                     </connections>
@@ -222,7 +231,7 @@
         <scene sceneID="SCj-20-wHv">
             <objects>
                 <navigationController title="Movies" automaticallyAdjustsScrollViewInsets="NO" id="vqE-iG-qv6" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Movie Info" largeContentSizeImage="appicon" id="srL-1j-Kwp"/>
+                    <tabBarItem key="tabBarItem" title="Movie Info" image="now_playing_tabbar_item" largeContentSizeImage="appicon" id="srL-1j-Kwp"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Rk9-dP-8QE">
                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
@@ -240,6 +249,9 @@
     </scenes>
     <resources>
         <image name="appicon" width="60" height="60"/>
+        <image name="fandangoicon" width="1024" height="1024"/>
+        <image name="now_playing_tabbar_item" width="21" height="21"/>
+        <image name="superhero_tabbar_item" width="21" height="23"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="uba-T8-hL4"/>

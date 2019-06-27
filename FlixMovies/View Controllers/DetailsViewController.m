@@ -8,13 +8,13 @@
 
 #import "DetailsViewController.h"
 #import "UIImageView+AFNetworking.h"
+#import <Foundation/Foundation.h>
 
 @interface DetailsViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *backView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *durLabel;
 @property (weak, nonatomic) IBOutlet UILabel *descLabel;
-
 @end
 
 @implementation DetailsViewController
@@ -38,7 +38,30 @@
     
     [self.titleLabel sizeToFit];
     [self.descLabel sizeToFit];
+    
+    
+    
 }
+
+- (IBAction)buttonTap:(id)sender {
+    
+    UIApplication *application = [UIApplication sharedApplication];
+    
+    NSString *movieName=self.movie[@"title"];
+    movieName = [movieName stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLUserAllowedCharacterSet]];
+
+    NSString *movieString = [NSString stringWithFormat:@"https://www.fandango.com/search?q=%@&mode=movies",movieName];
+    NSURL *URL=[NSURL URLWithString:movieString];
+    
+    //NSURL *URL = [NSURL URLWithString:@"http://www.google.com"];
+    [application openURL:URL options:@{} completionHandler:^(BOOL success) {
+        if (success) {
+            NSLog(@"Opened url");
+        }
+    }];
+    
+}
+
 
 
 /*
