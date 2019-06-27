@@ -77,9 +77,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.80000000000000004" contentMode="scaleToFill" alwaysBounceVertical="YES" id="Zp7-lV-cjs">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.80000000000000004" contentMode="scaleAspectFill" alwaysBounceVertical="YES" id="Zp7-lV-cjs">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Vbr-vo-m9H">
                                         <rect key="frame" x="0.0" y="-88" width="375" height="525"/>
@@ -201,6 +201,7 @@
                                         </view>
                                         <connections>
                                             <outlet property="movPoster" destination="bmO-7l-uC3" id="Xpr-jA-wpo"/>
+                                            <segue destination="Biq-hC-dxj" kind="push" id="uba-T8-hL4"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -240,4 +241,7 @@
     <resources>
         <image name="appicon" width="60" height="60"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="uba-T8-hL4"/>
+    </inferredMetricsTieBreakers>
 </document>
