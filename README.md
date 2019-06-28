@@ -2,7 +2,7 @@
 
 FlixMovies is a movies app using the [The Movie Database API](http://docs.themoviedb.apiary.io/#).
 
-Time spent: 12 hours spent in total
+Time spent: 13 hours spent in total
 
 ## User Stories
 
@@ -41,7 +41,7 @@ Here's a walkthrough of implemented user stories:
 
 http://g.recordit.co/tLO3xmQF5s.gif
 
-<img src='http://g.recordit.co/tLO3xmQF5s.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+(It didn't let me embed because the gif was too long?)
 
 GIF created with RecordIt.
 
