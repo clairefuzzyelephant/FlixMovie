@@ -11,12 +11,17 @@
 #import "UIImageView+AFNetworking.h"
 #import "DetailsViewController.h"
 
-@interface MoviesViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface MoviesViewController () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 
 @property (nonatomic, strong) NSArray *movies;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
+
+@property (strong, nonatomic) NSMutableArray *movieTitles;
+
+@property (strong, nonatomic) NSArray *filteredData;
 
 @end
 
@@ -28,6 +33,7 @@
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
+    self.searchBar.delegate = self;
     
     // Start the activity indicator
     [self.activityIndicator startAnimating];
@@ -36,9 +42,12 @@
     
     
     
+    
+    
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(fetchMovies) forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refreshControl];
+    
     
 }
 
@@ -57,10 +66,17 @@
             // TODO: Get the array of movies
             NSLog(@"%@", dataDictionary);
             self.movies = dataDictionary[@"results"];
+            self.filteredData = self.movies;
+            
+            self.movieTitles = [[NSMutableArray alloc] init];
+            
             for (NSDictionary *movie in self.movies){
-                NSLog(@"%@", movie[@"title"]);
-                NSLog(@"%@", movie[@"id"]);
+                //NSLog(@"%@", movie[@"title"]);
+                //NSLog(@"%@", movie[@"id"]);
+                [self.movieTitles addObject:movie[@"title"]];
+                NSLog(@"%@", self.movieTitles.firstObject);
             }
+            NSLog(@"%@", self.movieTitles);
             [self.tableView reloadData];
             // TODO: Store the movies in a property to use elsewhere
             // TODO: Reload your table view data
@@ -71,13 +87,14 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.movies.count;
+    return self.filteredData.count;
+    //return self.movies.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    MovieCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MovieCell"];
+    MovieCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"MovieCell"];
     
-    NSDictionary *movie = self.movies[indexPath.row];
+    NSDictionary *movie = self.filteredData[indexPath.row];
     cell.movTitle.text = movie[@"title"];
     cell.movDesc.text = movie[@"overview"];
     
@@ -90,6 +107,39 @@
     [cell.movPoster setImageWithURL:posterURL];
     //NSLog(@"%@", posterURL);
     return cell;
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    
+    if (searchText.length != 0) {
+        NSLog(@"entered search");
+        
+        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(NSString *evaluatedObject, NSDictionary *bindings) {
+            return [evaluatedObject localizedCaseInsensitiveContainsString:searchText];
+        }];
+        NSArray *tempData = [self.movieTitles filteredArrayUsingPredicate:predicate];
+        NSMutableArray *tempAdd = [[NSMutableArray alloc] init];
+        
+        //resetting filteredData by matching titles filtered by predicate to actual movie dictionaries
+        for (NSDictionary *movieDict in self.movies){
+            for (NSString *title in tempData){
+                if (movieDict[@"title"] == title){
+                    NSLog(@"added");
+                    [tempAdd addObject:movieDict];
+                }
+            }
+        }
+        self.filteredData = tempAdd;
+        
+        NSLog(@"%@", self.filteredData);
+        
+    }
+    else {
+        self.filteredData = self.movies;
+    }
+    
+    [self.tableView reloadData];
+    
 }
 
 
