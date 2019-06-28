@@ -24,22 +24,90 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    NSString *baseURLString = @"https://image.tmdb.org/t/p/original";
+    NSString *baseURLOrig = @"https://image.tmdb.org/t/p/original";
+    NSString *baseURLSmall = @"https://image.tmdb.org/t/p/w500";
     
+    //original resolution url
     NSString *backURLString = self.movie[@"backdrop_path"];
-    NSString *totalBackURLString = [baseURLString stringByAppendingString:backURLString];
+    NSString *totalBackURLString = [baseURLOrig stringByAppendingString:backURLString];
     
-    NSURL *backURL = [NSURL URLWithString:totalBackURLString];
+    //small resolution url
+    NSString *totalBackURLStringSmall = [baseURLSmall stringByAppendingString:backURLString];
     
-    [self.backView setImageWithURL:backURL];
+    NSURL *urlSmall = [NSURL URLWithString:totalBackURLStringSmall];
+    NSURL *urlLarge = [NSURL URLWithString:totalBackURLString];
+    
+    NSURLRequest *requestSmall = [NSURLRequest requestWithURL:urlSmall];
+    NSURLRequest *requestLarge = [NSURLRequest requestWithURL:urlLarge];
+    
+    __weak DetailsViewController *weakSelf = self;
+    
+    [self.backView setImageWithURLRequest:requestSmall
+                          placeholderImage:nil
+                                   success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *smallImage) {
+                                       
+                                       // smallImageResponse will be nil if the smallImage is already available
+                                       // in cache (might want to do something smarter in that case).
+                                       weakSelf.backView.alpha = 0.0;
+                                       weakSelf.backView.image = smallImage;
+                                       
+                                       [UIView animateWithDuration:0.3
+                                                        animations:^{
+                                                            
+                                                            weakSelf.backView.alpha = 1.0;
+                                                            
+                                                        } completion:^(BOOL finished) {
+                                                            // The AFNetworking ImageView Category only allows one request to be sent at a time
+                                                            // per ImageView. This code must be in the completion block.
+                                                            [weakSelf.backView setImageWithURLRequest:requestLarge
+                                                                                      placeholderImage:smallImage
+                                                                                               success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage * largeImage) {
+                                                                                                   weakSelf.backView.image = largeImage;
+                                                                                               }
+                                                                                               failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                                                                                   // do something for the failure condition of the large image request
+                                                                                                   // possibly setting the ImageView's image to a default image
+                                                                                               }];
+                                                        }];
+                                   }
+                                   failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                       // do something for the failure condition
+                                       // possibly try to get the large image
+                                   }];
+    
     
     NSString *posterURLString = self.movie[@"poster_path"];
     
-    NSString *totalPosterURLString = [baseURLString stringByAppendingString:posterURLString];
+    NSString *totalPosterURLString = [baseURLOrig stringByAppendingString:posterURLString];
     
     NSURL *posterURL = [NSURL URLWithString:totalPosterURLString];
+    NSURLRequest *request = [NSURLRequest requestWithURL:posterURL];
+    //fading in the image
+    __weak UIImageView *weakSelf2 = self.posterView;
+    [self.posterView setImageWithURLRequest:request placeholderImage:nil
+                                   success:^(NSURLRequest *imageRequest, NSHTTPURLResponse *imageResponse, UIImage *image) {
+                                       
+                                       // imageResponse will be nil if the image is cached
+                                       if (imageResponse) {
+                                           NSLog(@"Image was NOT cached, fade in image");
+                                           weakSelf2.alpha = 0.0;
+                                           weakSelf2.image = image;
+                                           
+                                           //Animate UIImageView back to alpha 1 over 0.3sec
+                                           [UIView animateWithDuration:0.3 animations:^{
+                                               weakSelf2.alpha = 1.0;
+                                           }];
+                                       }
+                                       else {
+                                           NSLog(@"Image was cached so just update the image");
+                                           weakSelf2.image = image;
+                                       }
+                                   }
+                                   failure:^(NSURLRequest *request, NSHTTPURLResponse * response, NSError *error) {
+                                       // do something for the failure condition
+                                   }];
     
-    [self.posterView setImageWithURL:posterURL];
+    //[self.posterView setImageWithURL:posterURL];
     
     
     self.titleLabel.text = self.movie[@"title"];
