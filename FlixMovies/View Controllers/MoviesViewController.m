@@ -111,6 +111,8 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     
+    self.searchBar.showsCancelButton = YES;
+    
     if (searchText.length != 0) {
         NSLog(@"entered search");
         
@@ -136,8 +138,19 @@
     }
     else {
         self.filteredData = self.movies;
+        
     }
     
+    [self.tableView reloadData];
+    
+}
+
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    self.searchBar.showsCancelButton = NO;
+    self.searchBar.text = @"";
+    [self.searchBar resignFirstResponder];
+    self.filteredData = self.movies;
     [self.tableView reloadData];
     
 }
