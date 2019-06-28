@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *durLabel;
 @property (weak, nonatomic) IBOutlet UILabel *descLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *posterView;
 @end
 
 @implementation DetailsViewController
@@ -31,6 +32,15 @@
     NSURL *backURL = [NSURL URLWithString:totalBackURLString];
     
     [self.backView setImageWithURL:backURL];
+    
+    NSString *posterURLString = self.movie[@"poster_path"];
+    
+    NSString *totalPosterURLString = [baseURLString stringByAppendingString:posterURLString];
+    
+    NSURL *posterURL = [NSURL URLWithString:totalPosterURLString];
+    
+    [self.posterView setImageWithURL:posterURL];
+    
     
     self.titleLabel.text = self.movie[@"title"];
     self.durLabel.text = self.movie[@"release_date"];
