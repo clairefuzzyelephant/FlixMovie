@@ -24,7 +24,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    NSString *baseURLString = @"https://image.tmdb.org/t/p/w500";
+    NSString *baseURLString = @"https://image.tmdb.org/t/p/original";
     
     NSString *backURLString = self.movie[@"backdrop_path"];
     NSString *totalBackURLString = [baseURLString stringByAppendingString:backURLString];

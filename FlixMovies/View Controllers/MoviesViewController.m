@@ -103,8 +103,35 @@
     NSString *totalURLString = [baseURLString stringByAppendingString:posterURLString];
     
     NSURL *posterURL = [NSURL URLWithString:totalURLString];
-    cell.movPoster.image = nil;
-    [cell.movPoster setImageWithURL:posterURL];
+    NSURLRequest *request = [NSURLRequest requestWithURL:posterURL];
+    
+    
+    //fading in the image
+    __weak MovieCell *weakSelf = cell;
+    [cell.movPoster setImageWithURLRequest:request placeholderImage:nil
+                                    success:^(NSURLRequest *imageRequest, NSHTTPURLResponse *imageResponse, UIImage *image) {
+                                        
+                                        // imageResponse will be nil if the image is cached
+                                        if (imageResponse) {
+                                            NSLog(@"Image was NOT cached, fade in image");
+                                            weakSelf.movPoster.alpha = 0.0;
+                                            weakSelf.movPoster.image = image;
+                                            
+                                            //Animate UIImageView back to alpha 1 over 0.3sec
+                                            [UIView animateWithDuration:0.3 animations:^{
+                                                weakSelf.movPoster.alpha = 0.5;
+                                            }];
+                                        }
+                                        else {
+                                            NSLog(@"Image was cached so just update the image");
+                                            weakSelf.movPoster.image = image;
+                                        }
+                                    }
+                                    failure:^(NSURLRequest *request, NSHTTPURLResponse * response, NSError *error) {
+                                        // do something for the failure condition
+                                    }];
+    //cell.movPoster.image = nil;
+    //[cell.movPoster setImageWithURL:posterURL];
     //NSLog(@"%@", posterURL);
     return cell;
 }
