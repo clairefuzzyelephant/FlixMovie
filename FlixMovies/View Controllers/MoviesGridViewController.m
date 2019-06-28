@@ -11,10 +11,16 @@
 #import "UIImageView+AFNetworking.h"
 #import "DetailsViewController.h"
 
-@interface MoviesGridViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface MoviesGridViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate>
 @property (nonatomic, strong) NSArray *movies;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+
+@property (strong, nonatomic) NSMutableArray *movieTitles;
+
+@property (strong, nonatomic) NSArray *filteredData;
 @end
 
 @implementation MoviesGridViewController
@@ -25,6 +31,7 @@
     
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
+    self.searchBar.delegate = self;
     
     [self fetchMovies];
     
@@ -55,6 +62,16 @@
             
             // TODO: Get the array of movies
             self.movies = dataDictionary[@"results"];
+            self.filteredData = self.movies;
+            
+            self.movieTitles = [[NSMutableArray alloc] init];
+            
+            for (NSDictionary *movie in self.movies){
+                //NSLog(@"%@", movie[@"title"]);
+                //NSLog(@"%@", movie[@"id"]);
+                [self.movieTitles addObject:movie[@"title"]];
+                NSLog(@"%@", self.movieTitles.firstObject);
+            }
             [self.collectionView reloadData];
 
             // TODO: Store the movies in a property to use elsewhere
@@ -69,9 +86,9 @@
 
 
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    MovieCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"MovieCollectionCell" forIndexPath:indexPath];
+    MovieCollectionCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"MovieCollectionCell" forIndexPath:indexPath];
     
-    NSDictionary *movie = self.movies[indexPath.item];
+    NSDictionary *movie = self.filteredData[indexPath.item];
     NSString *baseURLString = @"https://image.tmdb.org/t/p/w500";
     NSString *posterURLString = movie[@"poster_path"];
     NSString *totalURLString = [baseURLString stringByAppendingString:posterURLString];
@@ -110,9 +127,55 @@
 }
 
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.movies.count;
+    return self.filteredData.count;
 }
 
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    
+    self.searchBar.showsCancelButton = YES;
+    
+    if (searchText.length != 0) {
+        NSLog(@"entered search");
+        
+        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(NSString *evaluatedObject, NSDictionary *bindings) {
+            return [evaluatedObject localizedCaseInsensitiveContainsString:searchText];
+        }];
+        NSArray *tempData = [self.movieTitles filteredArrayUsingPredicate:predicate];
+        NSMutableArray *tempAdd = [[NSMutableArray alloc] init];
+        
+        //resetting filteredData by matching titles filtered by predicate to actual movie dictionaries
+        for (NSDictionary *movieDict in self.movies){
+            for (NSString *title in tempData){
+                if (movieDict[@"title"] == title){
+                    NSLog(@"added %@", title);
+                    [tempAdd addObject:movieDict];
+                }
+            }
+        }
+        self.filteredData = tempAdd;
+        
+        NSLog(@"%@", self.filteredData);
+        
+    }
+    else {
+        self.filteredData = self.movies;
+        
+    }
+    
+    [self.collectionView reloadData];
+    
+}
+
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    self.searchBar.showsCancelButton = NO;
+    self.searchBar.text = @"";
+    [self.searchBar resignFirstResponder];
+    self.filteredData = self.movies;
+    [self.collectionView reloadData];
+    
+}
 
 
  #pragma mark - Navigation

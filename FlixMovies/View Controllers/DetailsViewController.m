@@ -131,7 +131,6 @@
     NSString *movieString = [NSString stringWithFormat:@"https://www.fandango.com/search?q=%@&mode=movies",movieName];
     NSURL *URL=[NSURL URLWithString:movieString];
     
-    //NSURL *URL = [NSURL URLWithString:@"http://www.google.com"];
     [application openURL:URL options:@{} completionHandler:^(BOOL success) {
         if (success) {
             NSLog(@"Opened url");
