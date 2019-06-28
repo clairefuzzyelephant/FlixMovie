@@ -92,7 +92,7 @@
                                            
                                            //Animate UIImageView back to alpha 1 over 0.3sec
                                            [UIView animateWithDuration:0.3 animations:^{
-                                               weakSelf.movPoster.alpha = 0.5;
+                                               weakSelf.movPoster.alpha = 1.0;
                                            }];
                                        }
                                        else {
